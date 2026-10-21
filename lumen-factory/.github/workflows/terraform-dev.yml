@@ -1,0 +1,100 @@
+name: Terraform plan (dev)
+
+on:
+  pull_request:
+    paths:
+      - "app/**"
+      - "infra/**"
+      - "pyproject.toml"
+      - "Makefile"
+      - ".github/workflows/terraform-dev.yml"
+      - ".github/workflows/terraform-dev-apply.yml"
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: lumen-factory-plan-dev-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  plan:
+    name: Plan dev
+    runs-on: ubuntu-latest
+    env:
+      TF_IN_AUTOMATION: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build static site
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install .
+          python -m app.build
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: "1.16.6"
+          terraform_wrapper: false
+
+      - name: Terraform fmt
+        run: terraform fmt -check -recursive infra
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+          role-session-name: lumen-factory-plan-${{ github.run_id }}
+
+      - name: Write backend config
+        env:
+          TF_STATE_BUCKET: ${{ vars.TF_STATE_BUCKET }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          TF_LOCK_TABLE: ${{ vars.TF_LOCK_TABLE }}
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          body = (
+              f'bucket         = "{os.environ["TF_STATE_BUCKET"]}"\n'
+              f'region         = "{os.environ["AWS_REGION"]}"\n'
+              f'dynamodb_table = "{os.environ["TF_LOCK_TABLE"]}"\n'
+          )
+          for env in ("dev", "prod"):
+              path = Path("infra/envs") / env / "backend.hcl"
+              path.write_text(body)
+          PY
+
+      - name: Init and validate dev
+        working-directory: infra/envs/dev
+        run: |
+          terraform init -input=false -backend-config=backend.hcl
+          terraform validate
+
+      - name: Init and validate prod
+        working-directory: infra/envs/prod
+        run: |
+          terraform init -input=false -backend-config=backend.hcl
+          terraform validate
+
+      - name: Plan dev
+        working-directory: infra/envs/dev
+        run: |
+          terraform plan -input=false -out=tfplan
+          terraform show -no-color tfplan
+
+      - name: Upload dev plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfplan-dev
+          path: infra/envs/dev/tfplan
+          if-no-files-found: error
