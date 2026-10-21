@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Lumen Factory{% endblock %}</title>
+  <link rel="icon" href="{{ asset_prefix }}/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ asset_prefix }}/css/site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="mast">
+    <div class="mast-inner">
+      <a class="brand" href="{{ home_href }}">
+        <img src="{{ asset_prefix }}/favicon.svg" width="36" height="36" alt="">
+        <span>Lumen <em>Factory</em></span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        {% for item in nav %}
+        <a href="{{ item.href }}" {% if item.active %}aria-current="page"{% endif %}>{{ item.label }}</a>
+        {% endfor %}
+      </nav>
+    </div>
+  </header>
+  <main id="content">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="colophon">
+    <p>Lumen Factory prints static files. Terraform is what publishes them. Destroy the AWS stack when you stop for the day.</p>
+  </footer>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

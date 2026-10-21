@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Page not found · Lumen Factory{% endblock %}
+{% block content %}
+<section class="hero hero-compact">
+  <p class="eyebrow">404</p>
+  <h1>This filament burned out</h1>
+  <p class="lede">That path is not in the static build. The page you want is either Home, About, or Workshop.</p>
+  <p><a class="text-link" href="{{ home_href }}">Back to the factory floor</a></p>
+</section>
+{% endblock %}

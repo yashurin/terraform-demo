@@ -1,0 +1,10 @@
+aws_region        = "eu-west-1"
+project_name      = "lumen-factory"
+state_bucket_name = "lumen-factory-tfstate-CHANGE-ME"
+
+# GitHub OIDC is off until you set the org and repo.
+enable_github_oidc                 = false
+use_existing_github_oidc_provider  = false
+# github_org  = "your-github-org"
+# github_repo = "lumen-factory"
+# allowed_refs = ["ref:refs/heads/main", "ref:refs/heads/dev", "pull_request"]

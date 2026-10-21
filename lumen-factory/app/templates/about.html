@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}About · Lumen Factory{% endblock %}
+{% block content %}
+<section class="hero hero-compact">
+  <p class="eyebrow">Learning goals</p>
+  <h1>What this factory teaches</h1>
+  <p class="lede">One visible site, iterated. Each idea in Terraform shows up as a change you can open in a browser or read in a plan.</p>
+</section>
+
+<ol class="goals">
+  <li>
+    <h2>Providers</h2>
+    <p>The AWS provider talks to one account and region. CloudFront certificates are the exception: ACM for a distribution has to live in us-east-1, so that region is a second provider alias.</p>
+  </li>
+  <li>
+    <h2>State</h2>
+    <p>State is Terraform's memory of what it created. It starts as a local file, then moves to an S3 bucket with a DynamoDB lock. The state bucket is not the website bucket.</p>
+  </li>
+  <li>
+    <h2>Modules</h2>
+    <p><code>modules/static_site</code> owns the bucket, the distribution, and the uploads. Environment folders only call that module and pass variables.</p>
+  </li>
+  <li>
+    <h2>Environments</h2>
+    <p>Dev and prod are separate roots with separate state keys. They share the module. They do not share a tfvars file. Workspaces are a different tool and this lesson does not use them.</p>
+  </li>
+</ol>
+
+<section class="note">
+  <h2>Left out of v1</h2>
+  <p>No Kubernetes, no containers, no database, no VPC, no NAT gateway, no WAF, and no access logs. Those hide the thing this repo is for: a URL that came from a plan.</p>
+</section>
+{% endblock %}

@@ -1,0 +1,6 @@
+# Copy to backend.hcl (gitignored) after you apply infra/bootstrap.
+# Do not put the state key here. backend.tf pins it to:
+#   lumen-factory/dev/terraform.tfstate
+bucket         = "REPLACE_WITH_STATE_BUCKET"
+region         = "eu-west-1"
+dynamodb_table = "lumen-factory-tf-locks"

@@ -1,0 +1,11 @@
+aws_region           = "eu-west-1"
+project_name         = "lumen-factory"
+environment          = "dev"
+price_class          = "PriceClass_100"
+enable_custom_domain = false
+
+# Custom domain mode. The certificate is requested in us-east-1 by the module.
+# Leave the flag false until the hosted zone already exists in this account.
+# enable_custom_domain = true
+# domain_name          = "dev.example.com"
+# hosted_zone_id       = "Z0123456789ABCDEFGHIJ"

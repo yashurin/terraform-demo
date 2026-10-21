@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Lumen Factory{% endblock %}
+{% block content %}
+<section class="hero">
+  <p class="eyebrow">Job ticket 00 · static files</p>
+  <h1>Lumen Factory</h1>
+  <p class="lede">This site is built with Python on your machine, then exported to plain HTML. Terraform publishes that folder to AWS. The pages you are reading are the product. S3 and CloudFront come later in the lesson and serve these same files.</p>
+  <p class="hero-meta"><span>No database</span><span>No server in production</span><span>HTTP first, HTTPS next</span></p>
+</section>
+
+<section class="tickets" aria-label="How a site leaves the factory">
+  <article class="ticket">
+    <p class="ticket-no">01</p>
+    <h2>Forge locally</h2>
+    <p>Preview the pages, change the copy, and run the static build. <code>app/dist/</code> is the only artifact Terraform uploads.</p>
+  </article>
+  <article class="ticket">
+    <p class="ticket-no">02</p>
+    <h2>Apply the stack</h2>
+    <p>One module creates a private bucket, a CloudFront distribution, and the objects inside the bucket. Dev and prod each have their own state.</p>
+  </article>
+  <article class="ticket">
+    <p class="ticket-no">03</p>
+    <h2>Open the URL</h2>
+    <p>The useful output is <code>cloudfront_url</code>. It is HTTPS. The S3 website endpoint from the first lesson is gone on purpose.</p>
+  </article>
+</section>
+
+<section class="note">
+  <h2>What you are looking at</h2>
+  <p>If this page loaded from <code>127.0.0.1</code>, Python rendered it. If it loaded from a CloudFront domain, Terraform uploaded the exported HTML. The words stay the same either way. Nothing here calls AWS.</p>
+</section>
+{% endblock %}

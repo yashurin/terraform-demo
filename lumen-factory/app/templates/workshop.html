@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Workshop · Lumen Factory{% endblock %}
+{% block content %}
+<section class="hero hero-compact">
+  <p class="eyebrow">Workshop · client side only</p>
+  <h1>Stamp a launch card</h1>
+  <p class="lede">Type a site name and a tagline. The card is generated in the browser. There is no database and nothing is sent to a server.</p>
+</section>
+
+<div class="workshop">
+  <form id="launch-form" method="post" action="#launch-card">
+    <div class="field">
+      <label for="site-name">Site name</label>
+      <input id="site-name" name="site-name" type="text" maxlength="48" required autocomplete="off" placeholder="North Lamp Co.">
+    </div>
+    <div class="field">
+      <label for="tagline">Tagline</label>
+      <input id="tagline" name="tagline" type="text" maxlength="80" required autocomplete="off" placeholder="Light, forged to order.">
+    </div>
+    <button type="submit">Stamp launch card</button>
+    <p id="form-status" role="status"></p>
+  </form>
+
+  <section id="launch-card" class="plate" aria-live="polite">
+    <p class="plate-kicker">Launch card</p>
+    <h2 data-name>Waiting for a name</h2>
+    <p data-tagline>Submit the form to stamp a card. Nothing leaves this browser.</p>
+    <p class="serial" data-serial>LF-------</p>
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ asset_prefix }}/js/workshop.js"></script>
+{% endblock %}

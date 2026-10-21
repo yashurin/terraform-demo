@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Lumen Factory">
+  <rect width="64" height="64" rx="10" fill="#241c16"/>
+  <path d="M32 8c-10 9-10 14 0 20 10 6 10 11 0 16-10 5-10 11 0 16" fill="none" stroke="#ff7a1a" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="32" cy="34" r="3.2" fill="#f0c27a"/>
+</svg>

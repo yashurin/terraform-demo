@@ -1,0 +1,15 @@
+aws_region   = "eu-west-1"
+project_name = "lumen-factory"
+environment  = "prod"
+
+# Prod can later use a wider CloudFront footprint. PriceClass_100 is the
+# lesson default and covers Europe. Logging stays off; do not add a log
+# bucket until you have a reason and a budget.
+price_class = "PriceClass_100"
+
+# A custom domain is more likely here than in dev, and it is still off.
+# The module requests the ACM certificate in us-east-1 when you flip the flag.
+enable_custom_domain = false
+# enable_custom_domain = true
+# domain_name          = "www.example.com"
+# hosted_zone_id       = "Z0123456789ABCDEFGHIJ"
